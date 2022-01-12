@@ -1,0 +1,36 @@
+<section class="container">
+  <div class="row">
+    <div class="col-md-8 col-sm-12">
+      <table class="table table-hover table-sm">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Author</th>
+            <th>Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--index es una palabra reservada, es el índice del ngFor-->
+          <!--cuando pinchamos en la fila se hará la función selectBook y isBookSelected marcando la fila seleccionada (clase de bootstrap) y enviando la info del libro-->
+
+          <tr
+            *ngFor="let book of books; let i = index"
+            style="cursor: pointer"
+            (click)="selectBook(book)"
+            [class.table-active]="isBookSelected(book)"
+          >
+            <th scope="row">#</th>
+            <td>{{ book.author }}</td>
+            <td>{{ book.title }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4 col-sm-12">
+    <app-book-detail
+      (bookUpdate)="onBookUpdate($event)"
+      [book]="selectedBook"
+    ></app-book-detail>
+  </div>
+</section>
