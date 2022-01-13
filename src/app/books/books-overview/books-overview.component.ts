@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../book';
 import { assign } from 'lodash';
+import { BookService } from '../book.service';
 
 @Component({
   selector: 'app-books-overview',
@@ -12,17 +13,18 @@ export class BooksOverviewComponent implements OnInit {
   books!: Book[];
   selectedBook!: Book;
 
-  constructor() { }
+  //inyectamos el servicio en el parámetro del constructor declarándolo público
+  constructor(public service: BookService) { 
+
+  }
 
   ngOnInit(): void {
-
-    //instanciamos libros con el método from de la clase Book
-    this.books = [
-      Book.from("Aldous Huxley", "The doors of Perception"), 
-      Book.from("JK Rowling", "Harry Potter"), 
-      Book.from("Elvira Lindo", "Manolito Gafotas"), 
-      Book.from("Emilia Pardo Bazán", "Los Pazos de Ulloa"), 
-    ]
+    //nos suscribimos al observable que nos llega a través del método findAll() del servicio books.
+    //asignamos lo que viene con la propiedad 
+    this.service.findAll().subscribe((data) => {
+      //debugger;
+      this.books = data;
+    } );
   }
 
   //comprueba y devuelve un boolean
